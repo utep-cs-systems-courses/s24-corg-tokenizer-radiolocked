@@ -1,0 +1,53 @@
+#include "tokenizer.h"
+#include <stdio.h>
+#include <ctype.h>
+
+int space_char(char c){ //return true if c is whitespace
+  if(c == ' ' || c == '\t'){
+    return 1;
+  }
+  return 0;
+}
+
+int non_space_char(char c){ //return false if c is whitespace
+  if(c == ' ' || c == '\t'){
+    return 0;
+  }
+  return 1;
+}
+
+char *token_start(char *str){//return pointer to first char of next word
+  //iterate through word until it ends
+  while(*str == '\0' && *str != ' ' && *str != '\t'){
+    str++;
+  }
+
+  //skips spaces and tabs
+  while (*str == ' ' || *str == '\t'){
+    str++; //point to the next thing?? idk how pointers work exactly
+  }
+
+  if (*str == '\0'){
+    return NULL; //reached end of the string, so no more words
+  }else{
+    return str; //return pointer to the first character of the next word
+  }
+}
+
+//return a pointer terminator char following *token
+char *token_terminator(char *token){
+  //move ot the next char
+  while (*token != ' '&& *token != '\0'){
+    token++;
+  }
+  while(*token == ' '){
+    token++;
+  }
+
+  //now return the terminator
+  if(*token == '\0'){
+    return TERMINATOR;
+  }else{
+    return token; //return the pointer to the next token
+  }
+}
