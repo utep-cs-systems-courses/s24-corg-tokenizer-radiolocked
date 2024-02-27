@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define TERMINATOR NULL
 
 int space_char(char c){ //return true if c is whitespace
   if(c == ' ' || c == '\t'){
@@ -48,12 +49,12 @@ char *token_terminator(char *token){
   if(*token == '\0'){
     return TERMINATOR;
   }else{
-    return token; //return the pointer to the next token
+    return token;//pointer to next token
   }
 }
 
 //count the number of tokens in the string
-int count_tokens(char *token){
+int count_tokens(char *str){
   int count = 0;
   int  in_word = 0;
 

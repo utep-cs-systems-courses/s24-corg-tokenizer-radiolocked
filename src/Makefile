@@ -1,7 +1,7 @@
 #for convenience, define variable $(OBJS) to list of object files
 OBJS = history.o tokenizer.o uimain.o tester.o
 
-CFLAGS=-g -03
+CFLAGS=-g -O3
 
 all: uimain
 

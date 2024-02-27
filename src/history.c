@@ -40,7 +40,7 @@ void add_history(List *list, char *str){
 
   new_item->next = NULL;
 
-  if(list->next = NULL){
+  if(list->root == NULL){
     new_item->id = 1;
     list->root = new_item;
   }else{

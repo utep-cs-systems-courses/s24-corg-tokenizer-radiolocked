@@ -20,7 +20,7 @@ int main(){
   if(choice == '1'){
     //tokenize a string
     printf("Enter string to tokenize ");
-    print{"$");
+    print("$");
     fgets(input, max_len, stdin);
     char **tokens = tokenize(input);
     printf("Tokens:\n");
