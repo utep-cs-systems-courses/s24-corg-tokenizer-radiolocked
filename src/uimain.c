@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "tokenizer.h" //includes header file for tokenizer
 #include "history.h" //include header file for history
-#defince max_len 100
+#define max_len 100
 
 int main(){
   List *history_list = init_history();
