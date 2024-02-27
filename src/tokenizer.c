@@ -1,6 +1,6 @@
 #include "tokenizer.h"
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
 
 int space_char(char c){ //return true if c is whitespace
   if(c == ' ' || c == '\t'){
@@ -81,7 +81,10 @@ char *copy_str(char *inStr, short len){
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
-  strncpy(copy, inStr, len);//copy 'len'characters from 'inStr' to 'copy'
+  //copy characters
+  for(int i = 0; i < len; i++){
+    copy[i] = inStr[i];
+  }
   copy[len] = '\0';//null-terminate the string
   return copy;
 }
@@ -94,16 +97,36 @@ char **tokenize(char *str){
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
-  token = strok(str, " ");
-  while(token != NULL){
-    tokens[num_tokens] = copy_str(token, strlent(token));//copy the token in a new string
+  //tokenize the string
+  while(*str != '\0'){
+    //skip leading spaces
+    while(*str == ' '){
+      str++;
+    }
+    if(*str == '\0'){
+      break; //end of string;
+    }
+
+    //find end of token
+    char *token_end = str;
+    while(*token_end != ' ' && *token_end != '\0'){
+      token_end++;
+    }
+
+    //calculate token length
+    int token_len = token_end - str;
+
+    //allocate memory for token
+    tokens[num_tokens] = copy_str(str, token_len);
     num_tokens++;
     tokens = (char **)realloc(tokens, (num_tokens + 1) * sizeof(char *));//resize array
     if(tokens == NULL){
       fprintf(stderr, "Memory allocation failed\n");
       exit(1);
     }
-    token = strok(NULL, " ");//get the next token
+
+    //move to next token
+    str = token_end;
   }
   tokens[num_tokens] = NULL;//null-terminate the array of tokens
   return tokens;
