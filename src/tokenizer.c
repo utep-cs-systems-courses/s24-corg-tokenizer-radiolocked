@@ -55,15 +55,15 @@ char *token_terminator(char *token){
 //count the number of tokens in the string
 int count_tokens(char *token){
   int count = 0;
-  bool word = false;
+  int  in_word = 0;
 
   //iterate through string
   while(*str != '\0'){
     //if current character is a space or newline
     if(*str == ' ' || *str == '\t' || *str == '\n'){
-      word = false;//not inside a word
-    }else if(word == false){
-      word = true;
+      in_word = 0;//not inside a word
+    }else if(in_word == 0){
+      in_word = 1;
       count++;
     }
     str++;
@@ -90,45 +90,28 @@ char *copy_str(char *inStr, short len){
 }
 
 char **tokenize(char *str){
-  int num_tokens = 0;
-  char *token;
-  char **tokens = (char **)malloc(sizeof(char *));//allocate memory for array of pointers to tokens
+  int num_tokens = count_tokens(str);//count the number of tokens
+  //allocate memory for pointers array
+  char **tokens = (char **)malloc((num_tokens + 1) * sizeof(char *));
+
   if(tokens == NULL){
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
-  //tokenize the string
-  while(*str != '\0'){
-    //skip leading spaces
-    while(*str == ' '){
-      str++;
-    }
-    if(*str == '\0'){
-      break; //end of string;
-    }
 
-    //find end of token
-    char *token_end = str;
-    while(*token_end != ' ' && *token_end != '\0'){
-      token_end++;
-    }
+  int token_index = 0;
+  char *token_begin = token_start(str);
 
-    //calculate token length
-    int token_len = token_end - str;
+  while(token_start != NULL){
+    char *token_end = token_terminator(token_start);
+    int token_length = token_end - token_begin;
 
-    //allocate memory for token
-    tokens[num_tokens] = copy_str(str, token_len);
-    num_tokens++;
-    tokens = (char **)realloc(tokens, (num_tokens + 1) * sizeof(char *));//resize array
-    if(tokens == NULL){
-      fprintf(stderr, "Memory allocation failed\n");
-      exit(1);
-    }
+    tokens[token_index] = copy_str(token_begin, token_length);
+    token_index++;
 
-    //move to next token
-    str = token_end;
+    token_begin = token_start(token_end);//move to start of next token
   }
-  tokens[num_tokens] = NULL;//null-terminate the array of tokens
+  tokens[num_tokens] = TERMINATOR;//mark the end of the token array
   return tokens;
 }
 
