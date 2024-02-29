@@ -1,17 +1,17 @@
 #for convenience, define variable $(OBJS) to list of object files
-OBJS = history.o tokenizer.o uimain.o tester.o
+OBJS = history.o tokenizer.o uimain.o
 
 CFLAGS=-g -O3
 
-all: uimain
+all: main
 
-uimain: $(OBJS)
-	cc -o uimain $(CFLAGS) $(OBJS)
+main: $(OBJS)
+	cc -o main $(CFLAGS) $(OBJS)
 
 $(OBJS): history.h tokenizer.h
 
 clean:
-	rm -f *.o uimain
+	rm -f *.o main
 
-run:uimain
-	./uimain
+run: main
+	./main
