@@ -104,7 +104,7 @@ char **tokenize(char *str){
   char *token_begin = token_start(str);
 
   while(token_start != NULL){
-    char *token_end = token_terminator(token_start);
+    char *token_end = token_terminator(token_begin);
     int token_length = token_end - token_begin;
 
     tokens[token_index] = copy_str(token_begin, token_length);
