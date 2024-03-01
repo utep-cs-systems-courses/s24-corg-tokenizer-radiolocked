@@ -19,32 +19,34 @@ int non_space_char(char c){ //return false if c is whitespace
 
 char *token_start(char *str){//return pointer to first char of next word
   //iterate through word until it ends
-  while(*str == '\0' && *str != ' ' && *str != '\t'){
+  if(str == NULL){
+    return NULL;//hande NULL pointer
+  }
+
+  //iterate throught leading spaces
+  while(*str != '\0' && (*str == ' ' || *str == '\t')){
     str++;
   }
 
-  //skips spaces and tabs
-  while (*str == ' ' || *str == '\t'){
-    str++; //point to the next thing?? idk how pointers work exactly
-  }
-
-  if (*str == '\0'){
-    return NULL; //reached end of the string, so no more words
+  //return pointer to first char of next word
+  if(*str == '\0'){
+    return NULL;//end of string reached
   }else{
-    return str; //return pointer to the first character of the next word
+    return str;
   }
 }
 
 //return a pointer terminator char following *token
 char *token_terminator(char *token){
+  if(token == NULL){
+    return NULL;//handle null pointer
+  }
+  
   //move ot the next char
   while (*token != ' '&& *token != '\0'){
     token++;
   }
-  while(*token == ' '){
-    token++;
-  }
-
+  
   //now return the terminator
   if(*token == '\0'){
     return TERMINATOR;
