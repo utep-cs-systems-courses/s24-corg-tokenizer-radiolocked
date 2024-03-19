@@ -10,30 +10,42 @@ int main(){
   char input[max_len];
   char choice;
   int sequence_number = 0;
-  int found_sequence_number = 0;
 
   printf("Type 1 for tokenizer, or type 2 for history\n");
   printf("$");
   scanf(" %c", &choice);
-  //clear input buffer
-  while(getchar() != '\n');
+  getchar();//clear input buffer
+
   if(choice == '1'){
     //tokenize a string
     printf("Enter string to tokenize\n");
-    printf("$");
+    printf("$ ");
     fgets(input, max_len, stdin);
+
+    //check for empty input
+    if(input[0] == '\n'){
+      printf("Empty input. Exiting.\n");
+      return 0;
+    }
+
+    //tokenization
     char **tokens = tokenize(input);
+    if(tokens == NULL){
+      printf("Tokenization failed. Exiting.\n");
+      return 1;
+    }
+
+    //print tokens
     printf("Tokens:\n");
     print_tokens(tokens);
+    //free memory for tokens
     free_tokens(tokens);
+    
   }else if(choice == '2'){
     //use hisotry
     printf("Enter history sequence number (like !3): \n");
     printf("$");
     scanf("%d", &sequence_number);
-
-    //clear input buffer
-    while(getchar() != '\n');
 
     //retrieve history
     char *retrieved_str = get_history(history_list, sequence_number);

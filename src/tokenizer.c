@@ -23,11 +23,13 @@ char *token_start(char *str){//return pointer to first char of next word
   }
 
   //iterate throught leading spaces
-  while(*str != '\0' && (*str == ' ' || *str == '\t')){
+  while(*str != '\0'){
+    if(*str != ' ' && *str != '\t'){
+      break;//exit loop when encountering first non-space character
+    }
     str++;
   }
-
-  //return pointer to first character
+  //return pointer
   return str;
 }
 
@@ -38,18 +40,22 @@ char *token_terminator(char *token){
   }
   
   //move ot the next char
-  while (*token != ' '&& *token != '\0'){
+  while (*token != ' ' && *token != '\0'){
     token++;
   }
-  
-  //now return the terminator
+
+  //now move to the next non-space char
+  while(*token == ' '){
+    token++;
+  }
+
+  //if the token is at the end of the string, return NULL
   if(*token == '\0'){
-    return NULL;//return NULL to indicage end of string
+    return NULL;//indicate end of string
   }else{
-    return token;//pointer to next token
+    return token;
   }
 }
-
 //count the number of tokens in the string
 int count_tokens(char *str){
   int count = 0;
@@ -79,8 +85,8 @@ char *copy_str(char *inStr, short len){
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
-  //copy characters
-  for(int i = 0; i < len; i++){
+  //copy characters up to specified length or until the string ends
+  for(int i = 0; i < len && inStr[i] != '0'; i++){
     copy[i] = inStr[i];
   }
   copy[len] = '\0';//null-terminate the string
@@ -100,7 +106,7 @@ char **tokenize(char *str){
   int token_index = 0;
   char *token_begin = token_start(str);
 
-  while(token_begin != NULL){//correct loop condition
+  while(token_begin != NULL){
     char *token_end = token_terminator(token_begin);
     int token_length = token_end - token_begin;
 
